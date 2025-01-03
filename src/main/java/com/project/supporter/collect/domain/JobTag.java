@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,4 +28,10 @@ public class JobTag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_idx")
     private Tag tag;
+
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
+
+    @CreationTimestamp
+    private LocalDateTime regDate;
 }

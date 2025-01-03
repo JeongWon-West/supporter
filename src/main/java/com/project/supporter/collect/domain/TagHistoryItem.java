@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,4 +30,10 @@ public class TagHistoryItem {
     private Tag tag;
 
     private int rank;
+
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
+
+    @CreationTimestamp
+    private LocalDateTime regDate;
 }

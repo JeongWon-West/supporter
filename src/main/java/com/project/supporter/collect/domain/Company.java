@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,4 +29,11 @@ public class Company {
 
     @OneToMany(mappedBy = "company")
     private List<Job> jobs = new ArrayList<>();
+
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
+
+    @CreationTimestamp
+    private LocalDateTime regDate;
+
 }

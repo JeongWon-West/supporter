@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class RecruitSite {
     private Long idx;
 
     private String name;
+    private String siteUrl;
     private LocalDateTime collectDate;
     private int recruitNumber;
 
@@ -30,4 +33,10 @@ public class RecruitSite {
 
     @OneToMany(mappedBy = "recruitSite")
     private List<TagHistory> tagHistories = new ArrayList<>();
+
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
+
+    @CreationTimestamp
+    private LocalDateTime regDate;
 }

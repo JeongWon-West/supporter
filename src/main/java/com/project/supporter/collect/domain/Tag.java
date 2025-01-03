@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TAG_SEQ_GENERATOR")
     private Long idx;
 
+    private String uniqueTagId;
     private String category;
     private String description;
     private String name;
@@ -29,4 +33,10 @@ public class Tag {
 
     @OneToMany(mappedBy = "tag")
     private List<TagHistoryItem> tagHistoryItems = new ArrayList<>();
+
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
+
+    @CreationTimestamp
+    private LocalDateTime regDate;
 }
