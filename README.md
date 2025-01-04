@@ -221,7 +221,6 @@ erDiagram
 - Java 21
 - Spring boot 3
 - Oracle DB
-- Java Playwright
 - Docker
 - Oracle cloud
 - git

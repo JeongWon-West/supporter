@@ -1,9 +1,7 @@
 package com.project.supporter.collect.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,6 +16,7 @@ import java.util.List;
         name = "TAG_SEQ_GENERATOR",
         sequenceName = "TAG_SEQ",
         allocationSize = 1)
+@EqualsAndHashCode(of = "uniqueTagId")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TAG_SEQ_GENERATOR")
@@ -39,4 +38,16 @@ public class Tag {
 
     @CreationTimestamp
     private LocalDateTime regDate;
+
+    @Builder
+    public Tag(String uniqueTagId, String category, String description, String name) {
+        this.uniqueTagId = uniqueTagId;
+        this.category = category;
+        this.description = description;
+        this.name = name;
+    }
+
+    public void updateTechName(String techName) {
+        this.name = techName;
+    }
 }
