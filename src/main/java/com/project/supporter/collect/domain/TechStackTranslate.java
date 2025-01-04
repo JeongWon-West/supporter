@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class TechStackTranslate {
 
@@ -55,7 +57,7 @@ public class TechStackTranslate {
             }
 
             translateToEnglish(tag.getName())
-                    .ifPresent(tag::updateTechName);
+                    .ifPresentOrElse(tag::updateTechName, () -> log.info("기술 스택 번역 실패: {}", tag.getName()));
         });
     }
 }

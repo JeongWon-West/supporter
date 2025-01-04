@@ -3,12 +3,14 @@ package com.project.supporter.crawl.infra;
 import com.project.supporter.crawl.domain.CrawlType;
 import com.project.supporter.crawl.domain.Crawler;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class TagCrawler implements Crawler {
 
@@ -40,6 +42,7 @@ public class TagCrawler implements Crawler {
             return collectRestTemplate.getForObject(collectUrl, TechStackResponse.class);
         } catch (HttpClientErrorException clientErrorException) {
             String errorMessage = String.format("태그 수집에 실패하였습니다. :: [%d / %s]", clientErrorException.getStatusCode().value(), clientErrorException.getMessage());
+            log.error(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
     }
