@@ -46,9 +46,11 @@ public class TagMappingService {
                 .map(tagName -> {
                     Tag tag = tagMap.get(tagName);
                     if (tag == null) {
-                        // todo : 태그가 없는 경우 alert 처리
                         log.warn("Tag not found: {}", tagName);
-                        return null;
+                        tag = Tag.builder()
+                                .uniqueTagId(tagName)
+                                .name(tagName)
+                                .build();
                     }
                     return createJobTag(job, tag);
                 })
