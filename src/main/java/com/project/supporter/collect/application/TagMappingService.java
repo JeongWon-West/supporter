@@ -22,6 +22,8 @@ public class TagMappingService {
 
     private final JobTagRepository jobTagRepository;
 
+    private final TechStackTranslate techStackTranslate;
+
     public void mapAndSaveJobTags(Job job, List<String> tagNames) {
         if (CollectionUtils.isEmpty(tagNames)) {
             return;
@@ -29,6 +31,10 @@ public class TagMappingService {
 
         // 기존 JobTag 삭제
         jobTagRepository.deleteByJobIdx(job.getIdx());
+
+        tagNames = tagNames.stream()
+                .map(techStackTranslate::translateKoreanName)
+                .collect(Collectors.toList());
 
         // 존재하는 태그들 조회
         List<Tag> existingTags = tagRepository.findByNames(tagNames);
@@ -40,6 +46,7 @@ public class TagMappingService {
                 .map(tagName -> {
                     Tag tag = tagMap.get(tagName);
                     if (tag == null) {
+                        // todo : 태그가 없는 경우 alert 처리
                         log.warn("Tag not found: {}", tagName);
                         return null;
                     }
@@ -49,8 +56,6 @@ public class TagMappingService {
                 .collect(Collectors.toList());
 
         jobTagRepository.saveAll(jobTags);
-
-        log.info("Saved {} job tags for job idx: {}", jobTags.size(), job.getIdx());
     }
 
     private JobTag createJobTag(Job job, Tag tag) {

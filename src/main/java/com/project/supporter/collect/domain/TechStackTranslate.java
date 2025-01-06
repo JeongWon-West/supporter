@@ -50,6 +50,17 @@ public class TechStackTranslate {
                 .findFirst();
     }
 
+    public String translateKoreanName(String techName) {
+        if (!containsKorean(techName)) {
+            return techName;
+        }
+        return translateToEnglish(techName)
+                .orElseGet(() -> {
+                    log.info("기술 스택 번역 실패: {}", techName);
+                    return techName;
+                });
+    }
+
     public void translateKoreanName(Tags tags) {
         tags.getTagCollection().forEach(tag -> {
             if (!containsKorean(tag.getName())) {
