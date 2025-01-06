@@ -24,8 +24,12 @@ public class RecruitSite {
     private Long idx;
 
     private String name;
+
     private String siteUrl;
-    private LocalDateTime collectDate;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     private int recruitNumber;
 
     @OneToMany(mappedBy = "recruitSite")

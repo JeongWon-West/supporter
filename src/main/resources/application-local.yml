@@ -22,3 +22,7 @@ logging:
 
 collect:
   tag-collect-url: https://api.codenary.co.kr/techstacks
+  wanted:
+    list-url-prefix: https://www.wanted.co.kr
+    list-url-cursor: /api/chaos/navigation/v1/results?job_group_id=518&country=kr&job_sort=job.latest_order&years=-1&locations=all&limit=20
+    detail-url: https://www.wanted.co.kr/api/chaos/jobs/v3/{uniqueJobId}/details

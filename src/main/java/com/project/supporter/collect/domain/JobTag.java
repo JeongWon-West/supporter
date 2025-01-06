@@ -2,6 +2,7 @@ package com.project.supporter.collect.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,4 +35,10 @@ public class JobTag {
 
     @CreationTimestamp
     private LocalDateTime regDate;
+
+    @Builder
+    public JobTag(Job job, Tag tag) {
+        this.job = job;
+        this.tag = tag;
+    }
 }

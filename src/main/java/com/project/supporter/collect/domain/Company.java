@@ -2,6 +2,7 @@ package com.project.supporter.collect.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,7 +25,7 @@ public class Company {
     private Long idx;
 
     private String name;
-    private String industryName;
+
     private String address;
 
     @OneToMany(mappedBy = "company")
@@ -36,4 +37,9 @@ public class Company {
     @CreationTimestamp
     private LocalDateTime regDate;
 
+    @Builder
+    public Company(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
 }

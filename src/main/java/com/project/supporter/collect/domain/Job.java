@@ -2,6 +2,7 @@ package com.project.supporter.collect.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,6 +25,7 @@ public class Job {
     private Long idx;
 
     private String uniqueJobId;
+    private LocalDateTime collectDate;
     private LocalDateTime dueTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,4 +47,14 @@ public class Job {
 
     @CreationTimestamp
     private LocalDateTime regDate;
+
+    @Builder
+    public Job(String uniqueJobId, LocalDateTime collectDate, LocalDateTime dueTime, RecruitSite recruitSite, Company company, JobDetail jobDetail) {
+        this.uniqueJobId = uniqueJobId;
+        this.collectDate = collectDate;
+        this.dueTime = dueTime;
+        this.recruitSite = recruitSite;
+        this.company = company;
+        this.jobDetail = jobDetail;
+    }
 }

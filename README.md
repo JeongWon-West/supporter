@@ -133,8 +133,8 @@ erDiagram
     RecruitSite {
         int idx PK
         string name
-        datetime collect_date
-        int recruit_number
+        string siteUrl
+        string status
     }
 
     Job {
@@ -142,6 +142,7 @@ erDiagram
         string unique_job_id
         int recruit_site_idx FK
         datetime due_time
+        datetime collect_date
         int company_idx FK
     }
 
@@ -166,6 +167,7 @@ erDiagram
 
     Tag {
         int idx PK
+        string unique_tag_id
         string category
         string description
         string name
@@ -199,6 +201,7 @@ erDiagram
     RecruitSite ||--o{ TagHistory : "stores tag trends"
     TagHistory ||--o{ TagHistoryItem : "contains"
     Tag ||--o{ TagHistoryItem : "is ranked"
+
 
 ```
 

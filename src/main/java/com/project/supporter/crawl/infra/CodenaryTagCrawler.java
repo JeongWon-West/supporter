@@ -1,7 +1,7 @@
 package com.project.supporter.crawl.infra;
 
 import com.project.supporter.crawl.domain.CrawlType;
-import com.project.supporter.crawl.domain.Crawler;
+import com.project.supporter.crawl.domain.TagCrawler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class TagCrawler implements Crawler {
+public class CodenaryTagCrawler implements TagCrawler {
 
     @Value("${collect.tag-collect-url}")
     private String tagCollectUrl;

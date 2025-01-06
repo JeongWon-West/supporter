@@ -4,5 +4,4 @@ public interface Crawler {
 
     boolean isSupport(CrawlType crawlType);
 
-    CollectResponse collect();
 }
