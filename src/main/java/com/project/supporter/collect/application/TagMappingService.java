@@ -9,7 +9,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,35 +29,37 @@ public class TagMappingService {
             return;
         }
 
-        // 기존 JobTag 삭제
         jobTagRepository.deleteByJobIdx(job.getIdx());
 
-        tagNames = tagNames.stream()
-                .map(techStackTranslate::translateKoreanName)
-                .collect(Collectors.toList());
-
-        // 존재하는 태그들 조회
-        List<Tag> existingTags = tagRepository.findByNames(tagNames);
-        Map<String, Tag> tagMap = existingTags.stream()
-                .collect(Collectors.toMap(Tag::getName, tag -> tag));
-
-        // JobTag 엔티티 생성 및 저장
-        List<JobTag> jobTags = tagNames.stream()
-                .map(tagName -> {
-                    Tag tag = tagMap.get(tagName);
-                    if (tag == null) {
-                        log.warn("Tag not found: {}", tagName);
-                        tag = Tag.builder()
-                                .uniqueTagId(tagName)
-                                .name(tagName)
-                                .build();
-                    }
-                    return createJobTag(job, tag);
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+        tagNames = translateTagNames(tagNames);
+        Map<String, Tag> tagMap = createTagMap(tagNames);
+        List<JobTag> jobTags = createJobTags(job, tagMap, tagNames);
 
         jobTagRepository.saveAll(jobTags);
+    }
+
+    private List<String> translateTagNames(List<String> tagNames) {
+        return tagNames.stream()
+                .map(techStackTranslate::translateKoreanName)
+                .collect(Collectors.toList());
+    }
+
+    private Map<String, Tag> createTagMap(List<String> tagNames) {
+        List<Tag> existingTags = tagRepository.findByNames(tagNames);
+        return existingTags.stream()
+                .collect(Collectors.toMap(Tag::getName, Function.identity()));
+    }
+
+    private List<JobTag> createJobTags(Job job, Map<String, Tag> tagMap, List<String> tagNames) {
+        return tagNames.stream()
+                .map(tagName -> {
+                    Tag tag = tagMap.getOrDefault(tagName, Tag.builder()
+                            .uniqueTagId(tagName)
+                            .name(tagName)
+                            .build());
+                    return createJobTag(job, tag);
+                })
+                .collect(Collectors.toList());
     }
 
     private JobTag createJobTag(Job job, Tag tag) {
